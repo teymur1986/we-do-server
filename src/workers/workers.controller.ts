@@ -4,7 +4,7 @@
  * The (worker) controller have to handle CRUD of workers and manage authorization process and authentication.
  */
 import { Controller, Post, Body, ValidationPipe } from '@nestjs/common';
-import { WorkersService } from './workers.service';
+import { WorkersService, IAccessToken } from './workers.service';
 import { Worker } from './worker.entity';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 
@@ -24,7 +24,7 @@ export class WorkersController {
     @Post('/signin')
     signIn(
         @Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto,
-    ): Promise<Worker> {
+    ): Promise<IAccessToken> {
         return this.workersService.signIn(authCredentialsDto);
     }
 }

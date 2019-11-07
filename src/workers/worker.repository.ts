@@ -1,16 +1,28 @@
 import { Repository, EntityRepository } from 'typeorm';
 import { Worker } from './worker.entity';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
-import { InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import { InternalServerErrorException, UnauthorizedException, NotFoundException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
 export interface IWorkerRepository {
     signUp: (a: AuthCredentialsDto) => Promise<Worker>;
     validateWorkerPassword: (a: AuthCredentialsDto) => Promise<Worker>;
+    fetchWorkerByEmail: (e: string) => Promise<Worker>;
 }
 
 @EntityRepository(Worker)
 export class WorkerRepository extends Repository<Worker> implements IWorkerRepository {
+
+    fetchWorkerByEmail = async (email: string): Promise<Worker> => {
+        if (!email) {
+            throw new NotFoundException(`Worker cannot be find by empty email.`);
+        }
+        const worker = await this.findOne({ email });
+        if (!worker) {
+            throw new UnauthorizedException(`Worker with email=${email} doesn't exist.`);
+        }
+        return worker;
+    }
 
     signUp = async (authCredentials: AuthCredentialsDto): Promise<Worker> => {
         const { email, password, firstName, lastName} = authCredentials;

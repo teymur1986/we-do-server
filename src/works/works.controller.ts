@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Param, Delete, Patch, Query, UsePipes, ValidationPipe, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Patch, Query, UsePipes, ValidationPipe, ParseIntPipe, UseGuards } from '@nestjs/common';
 import { WorksService } from './works.service';
 import { IWork } from './work.entity';
 import { WorkDto } from './dto/create-update-work.dto';
 import { FilterWorkDto } from './dto/filter-work.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('works')
 export class WorksController {
@@ -30,6 +31,7 @@ export class WorksController {
 
     @Post()
     @UsePipes(ValidationPipe)
+    @UseGuards(AuthGuard())
     async postCreateWork(
         @Body() createWorkDto: WorkDto,
     ): Promise<IWork> {
@@ -37,6 +39,7 @@ export class WorksController {
     }
 
     @Patch('/:id')
+    @UseGuards(AuthGuard())
     async updateWork(
         @Param('id') id: number,
         @Body() createWorkDto: WorkDto,
@@ -45,6 +48,7 @@ export class WorksController {
     }
 
     @Delete('/:id')
+    @UseGuards(AuthGuard())
     async deleteWorkById(
         @Param('id', ParseIntPipe) id: number,
     ): Promise<number> {
