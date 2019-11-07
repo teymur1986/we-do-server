@@ -1,11 +1,7 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-
-export enum WorkStatus {
-    notStarted = 'not started',
-    inProgress = 'in progress',
-    inCompleted = 'in completed',
-    completed = 'completed',
-}
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from 'typeorm';
+import { Image } from '../images/image.entity';
+import { ISpecification, Specification } from '../specifications/specification.entity';
+import { IWorker, Worker } from '../workers/worker.entity';
 
 export interface IWork {
     id: number;
@@ -15,10 +11,10 @@ export interface IWork {
     secondPhone: string;
     description: string;
     email: string;
-    // images: Image[];
-    // specification: Specification;
-    status: WorkStatus;
-    createAt: Date;
+    images: Image[];
+    specification: ISpecification;
+    worker: IWorker;
+    createdAt: Date;
     modifiedAt: Date;
 }
 
@@ -71,19 +67,20 @@ export class Work extends BaseEntity implements IWork {
     })
     email: string;
 
-    @Column({
-        type: 'enum',
-        name: 'status',
-        nullable: false,
-        enum: WorkStatus,
-    })
-    status: WorkStatus;
+    @OneToMany(type => Image, image => image.work)
+    images: Image[];
+
+    @ManyToOne(type => Specification, specification => specification.works)
+    specification: ISpecification;
+
+    @ManyToOne(type => Worker, worker => worker.youDo)
+    worker: IWorker;
 
     @Column({
         type: 'date',
         name: 'createAt',
     })
-    createAt: Date;
+    createdAt: Date;
 
     @Column({
         type: 'date',

@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
 import { WorkersModule } from './workers/workers.module';
 import { SpecificationsModule } from './specifications/specifications.module';
 import { ImagesModule } from './images/images.module';
 import { WorksModule } from './works/works.module';
 import { typeOrmConfig } from './config/typeorm.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AppointmentModule } from './appointment/appointment.module';
 
 @Module({
   imports: [
@@ -14,8 +14,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     ImagesModule,
     WorksModule,
     TypeOrmModule.forRoot(typeOrmConfig),
+    AppointmentModule,
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [],
 })
 export class AppModule {}

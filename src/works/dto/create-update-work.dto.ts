@@ -1,5 +1,4 @@
 import { IsNotEmpty } from 'class-validator';
-import { WorkStatus } from '../work.entity';
 import { Optional } from '@nestjs/common';
 
 export class WorkDto {
@@ -16,6 +15,4 @@ export class WorkDto {
     email?: string;
     @Optional()
     secondPhone?: string;
-    @Optional()
-    status?: WorkStatus;
 }

@@ -1,5 +1,5 @@
 import { Repository, EntityRepository } from 'typeorm';
-import { Work, WorkStatus, IWork } from './work.entity';
+import { Work, IWork } from './work.entity';
 import { IFilterWorkDto } from './dto/filter-work.dto';
 import { WorkDto } from './dto/create-update-work.dto';
 import { NotFoundException } from '@nestjs/common';
@@ -26,8 +26,7 @@ export class WorksRepository extends Repository<Work> implements IWorksRepositor
         work.secondPhone = secondPhone;
         work.description = description;
         work.email = email;
-        work.status = WorkStatus.notStarted;
-        work.createAt = newDate;
+        work.createdAt = newDate;
         work.modifiedAt = newDate;
         await work.save();
         return work;
@@ -38,14 +37,13 @@ export class WorksRepository extends Repository<Work> implements IWorksRepositor
         if (!foundWork) {
             throw new NotFoundException(`Work with id=${id} wasn't defined.`);
         }
-        const { title, fullName, firstPhone, secondPhone, description, email, status } = createWorkDto;
+        const { title, fullName, firstPhone, secondPhone, description, email } = createWorkDto;
         foundWork.title = title || foundWork.title;
         foundWork.fullName = fullName || foundWork.fullName;
         foundWork.firstPhone = firstPhone || foundWork.firstPhone;
         foundWork.secondPhone = secondPhone || foundWork.secondPhone;
         foundWork.description = description || foundWork.description;
         foundWork.email = email || foundWork.email;
-        foundWork.status = status || foundWork.status;
         foundWork.modifiedAt = new Date();
         await foundWork.save();
         return foundWork;
@@ -61,12 +59,8 @@ export class WorksRepository extends Repository<Work> implements IWorksRepositor
     }
 
     fetchFilteredWorks = async (filterWorkDto: IFilterWorkDto): Promise<IWork[]> => {
-        const { status, search } = filterWorkDto;
+        const { search } = filterWorkDto;
         const query = this.createQueryBuilder('work');
-        if (status) {
-            query.andWhere(`work.status = :status`, { status });
-        }
-
         if (search) {
             query.andWhere(`
                 (work.title LIKE :search OR

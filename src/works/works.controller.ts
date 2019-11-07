@@ -36,7 +36,7 @@ export class WorksController {
         return await this.worksService.createWork(createWorkDto);
     }
 
-    @Patch('/:id/status')
+    @Patch('/:id')
     async updateWork(
         @Param('id') id: number,
         @Body() createWorkDto: WorkDto,
