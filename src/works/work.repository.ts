@@ -62,7 +62,23 @@ export class WorksRepository extends Repository<Work> implements IWorksRepositor
 
     fetchFilteredWorks = async (filterWorkDto: IFilterWorkDto): Promise<IWork[]> => {
         const { status, search } = filterWorkDto;
-        return null;
+        const query = this.createQueryBuilder('work');
+        if (status) {
+            query.andWhere(`work.status = :status`, { status });
+        }
+
+        if (search) {
+            query.andWhere(`
+                (work.title LIKE :search OR
+                work.fullName LIKE :search OR
+                work.firstPhone LIKE :search OR
+                work.secondPhone LIKE :search OR
+                work.description LIKE :search OR
+                work.email LIKE :search)
+            `, { search: `%${search}%` });
+        }
+        const works = await query.getMany();
+        return works;
     }
 
     fetchWorks = async (): Promise<IWork[]> => {
