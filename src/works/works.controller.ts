@@ -1,6 +1,6 @@
-import { Controller, Get, Post, Body, Param, Delete, Patch, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Patch, Query, UsePipes, ValidationPipe, ParseIntPipe } from '@nestjs/common';
 import { WorksService } from './works.service';
-import { IWork } from './work.model';
+import { IWork } from './work.entity';
 import { WorkDto } from './dto/create-update-work.dto';
 import { FilterWorkDto } from './dto/filter-work.dto';
 
@@ -23,7 +23,7 @@ export class WorksController {
 
     @Get('/:id')
     async getWorkById(
-        @Param('id') id: number,
+        @Param('id', ParseIntPipe) id: number,
     ): Promise<IWork> {
         return await this.worksService.getWorkById(id);
     }
@@ -46,7 +46,7 @@ export class WorksController {
 
     @Delete('/:id')
     async deleteWorkById(
-        @Param('id') id: number,
+        @Param('id', ParseIntPipe) id: number,
     ): Promise<number> {
         return await this.worksService.deleteWorkById(id);
     }

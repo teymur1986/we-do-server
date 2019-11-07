@@ -1,7 +1,12 @@
-import { WorkStatus } from '../work.model';
+import { WorkStatus } from '../work.entity';
 import { IsNotEmpty, IsOptional, IsIn } from 'class-validator';
 
-export class FilterWorkDto {
+export interface IFilterWorkDto {
+    status: WorkStatus;
+    search: string;
+}
+
+export class FilterWorkDto implements IFilterWorkDto {
     @IsNotEmpty()
     @IsOptional()
     @IsIn([

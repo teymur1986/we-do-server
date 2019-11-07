@@ -1,5 +1,4 @@
 import { Image } from 'src/images/image.model';
-import { IWork } from 'src/works/work.model';
 
 export interface Worker {
     id: number;
@@ -9,8 +8,8 @@ export interface Worker {
     lastName: string;
     age: number;
     birthDate: Date;
-    youDo: IWork;
-    weDo: IWork;
+    // youDo: IWork;
+    // weDo: IWork;
     profileImage: Image;
     privatePhone: string;
     createAt: Date;
