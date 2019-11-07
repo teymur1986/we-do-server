@@ -1,10 +1,19 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { IWork, Work } from '../works/work.entity';
 
+export enum SpecificationGroup {
+    movableProperty = 'Movables Property',
+    immovableProperty = 'Immovable Property',
+    health = 'Health',
+    sport = 'Sport',
+    entertainment = 'Entertainment',
+}
+
 export interface ISpecification {
-    id: number;
+    id?: number;
     name: string;
-    works: IWork[];
+    group: SpecificationGroup;
+    works?: IWork[];
 }
 
 @Entity({
@@ -20,6 +29,14 @@ export class Specification extends BaseEntity implements ISpecification {
         name: 'name',
     })
     name: string;
+
+    @Column({
+        type: 'enum',
+        name: 'group',
+        nullable: false,
+        enum: SpecificationGroup,
+    })
+    group: SpecificationGroup;
 
     @OneToMany(type => Work, work => work.specification)
     works: IWork[];

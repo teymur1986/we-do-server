@@ -3,7 +3,7 @@ import { WorksController } from './works.controller';
 import { WorksService } from './works.service';
 import { WorksRepository } from './work.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { WorkersModule } from 'src/workers/workers.module';
+import { WorkersModule } from '../workers/workers.module';
 
 @Module({
   imports: [
