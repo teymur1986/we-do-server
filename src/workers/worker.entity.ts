@@ -2,6 +2,7 @@ import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColum
 import { Image } from '../images/image.entity';
 import { IWork, Work } from '../works/work.entity';
 import { IAppointment, Appointment } from '../appointment/appointment.entity';
+import * as bcrypt from 'bcrypt';
 
 export interface IWorker {
     id: number;
@@ -44,14 +45,14 @@ export class Worker extends BaseEntity implements IWorker {
 
     @Column({
         type: 'varchar',
-        nullable: false,
+        nullable: true,
         name: 'firstName',
     })
     firstName: string;
 
     @Column({
         type: 'varchar',
-        nullable: false,
+        nullable: true,
         name: 'lastName',
     })
     lastName: string;
@@ -104,4 +105,9 @@ export class Worker extends BaseEntity implements IWorker {
 
     @OneToMany(type => Appointment, appointment => appointment.worker)
     weDo: IAppointment[];
+
+    validatePassword = async (password: string): Promise<boolean> => {
+        const hash = await bcrypt.hash(password, this.salt);
+        return hash === this.password;
+    }
 }

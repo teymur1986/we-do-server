@@ -20,4 +20,11 @@ export class WorkersController {
     ): Promise<Worker> {
         return this.workersService.signUp(authCredentialsDto);
     }
+
+    @Post('/signin')
+    signIn(
+        @Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto,
+    ): Promise<Worker> {
+        return this.workersService.signIn(authCredentialsDto);
+    }
 }

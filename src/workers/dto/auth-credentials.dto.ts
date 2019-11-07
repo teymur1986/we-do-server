@@ -1,4 +1,5 @@
 import { IsNotEmpty, MinLength, IsEmail, IsString, MaxLength, Matches } from 'class-validator';
+import { Optional } from '@nestjs/common';
 
 export class AuthCredentialsDto {
     @IsNotEmpty({ message: `Email can't be empty` })
@@ -13,11 +14,11 @@ export class AuthCredentialsDto {
         { message: 'Password should contain capital letters and digits.' })
     password: string;
 
-    @IsNotEmpty({ message: `First name can't be empty` })
+    @Optional()
     @IsString()
     firstName: string;
 
-    @IsNotEmpty({ message: `Last name can't be empty` })
+    @Optional()
     @IsString()
     lastName: string;
 }
