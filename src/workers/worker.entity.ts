@@ -1,4 +1,4 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, OneToMany } from 'typeorm';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, OneToMany, Unique } from 'typeorm';
 import { Image } from '../images/image.entity';
 import { IWork, Work } from '../works/work.entity';
 import { IAppointment, Appointment } from '../appointment/appointment.entity';
@@ -15,13 +15,15 @@ export interface IWorker {
     weDo: IAppointment[];
     profileImage: Image;
     privatePhone: string;
+    salt: string;
     createdAt: Date;
     modifiedAt: Date;
 }
 
 @Entity({
-    name: 'work',
+    name: 'worker',
 })
+@Unique(['email'])
 export class Worker extends BaseEntity implements IWorker {
     @PrimaryGeneratedColumn()
     id: number;
@@ -68,10 +70,6 @@ export class Worker extends BaseEntity implements IWorker {
     })
     birthDate: Date;
 
-    @OneToOne(type => Image)
-    @JoinColumn()
-    profileImage: Image;
-
     @Column({
         type: 'varchar',
         nullable: true,
@@ -80,20 +78,30 @@ export class Worker extends BaseEntity implements IWorker {
     privatePhone: string;
 
     @Column({
+        type: 'varchar',
+        name: 'salt',
+    })
+    salt: string;
+
+    @Column({
         type: 'date',
         name: 'createAt',
     })
     createdAt: Date;
-
-    @OneToMany(type => Work, work => work.worker)
-    youDo: IWork[];
-
-    @OneToMany(type => Appointment, appointment => appointment.worker)
-    weDo: IAppointment[];
 
     @Column({
         type: 'date',
         name: 'modifiedAt',
     })
     modifiedAt: Date;
+
+    @OneToOne(type => Image)
+    @JoinColumn()
+    profileImage: Image;
+
+    @OneToMany(type => Work, work => work.worker)
+    youDo: IWork[];
+
+    @OneToMany(type => Appointment, appointment => appointment.worker)
+    weDo: IAppointment[];
 }
