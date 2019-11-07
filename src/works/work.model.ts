@@ -1,5 +1,5 @@
-import { Specification } from '../specifications/specifications.model';
-import { Image } from '../images/image.model';
+// import { Specification } from '../specifications/specifications.model';
+// import { Image } from '../images/image.model';
 
 export enum WorkStatus {
     notStarted = 'not started',
@@ -8,14 +8,17 @@ export enum WorkStatus {
     completed = 'completed',
 }
 
-export interface Work {
+export interface IWork {
     id: number;
     title: string;
     fullName: string;
     firstPhone: string;
     secondPhone: string;
     description: string;
-    images: Image[];
-    specification: Specification;
+    email: string;
+    // images: Image[];
+    // specification: Specification;
     status: WorkStatus;
+    createAt: Date;
+    modifiedAt: Date;
 }

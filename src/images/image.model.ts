@@ -4,4 +4,5 @@ export interface Image {
     title: string;
     url: string;
     alt: string;
+    createdAt: Date;
 }

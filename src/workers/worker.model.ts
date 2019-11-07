@@ -1,5 +1,5 @@
 import { Image } from 'src/images/image.model';
-import { Work } from 'src/works/work.model';
+import { IWork } from 'src/works/work.model';
 
 export interface Worker {
     id: number;
@@ -9,8 +9,10 @@ export interface Worker {
     lastName: string;
     age: number;
     birthDate: Date;
-    youDo: Work;
-    weDo: Work;
+    youDo: IWork;
+    weDo: IWork;
     profileImage: Image;
     privatePhone: string;
+    createAt: Date;
+    modifiedAt: Date;
 }
