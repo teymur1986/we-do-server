@@ -21,10 +21,10 @@ export class WorkersController {
         return this.workersService.signUp(authCredentialsDto);
     }
 
-    @Post('/signin')
+    @Post('/login')
     signIn(
         @Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto,
     ): Promise<IAccessToken> {
-        return this.workersService.signIn(authCredentialsDto);
+        return this.workersService.login(authCredentialsDto);
     }
 }

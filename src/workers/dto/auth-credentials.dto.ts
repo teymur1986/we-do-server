@@ -15,10 +15,8 @@ export class AuthCredentialsDto {
     password: string;
 
     @Optional()
-    @IsString()
     firstName: string;
 
     @Optional()
-    @IsString()
     lastName: string;
 }

@@ -26,7 +26,7 @@ export class WorkersService {
         return this.workerRepository.signUp(authCredentials);
     }
 
-    signIn = async (authCredentials: AuthCredentialsDto): Promise<IAccessToken> => {
+    login = async (authCredentials: AuthCredentialsDto): Promise<IAccessToken> => {
         const worker = await this.workerRepository.validateWorkerPassword(authCredentials);
         if (!worker) {
             throw new UnauthorizedException(`Invalid credentials.`);

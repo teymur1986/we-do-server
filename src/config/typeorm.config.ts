@@ -9,4 +9,4 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
     database: 'we-do',
     entities: [`${__dirname}/../**/*.entity.ts`, `${__dirname}/../**/*.entity.js`],
     synchronize: true,
-}
+};
