@@ -1,0 +1,14 @@
+server:
+  port: 3000
+
+db:
+  host: 'localhost'
+  type: 'postgres'
+  port: 5433
+  database: 'we-do'
+  password: 'Gfhjkm'
+  username: 'postgres'
+
+jwt:
+  secret: 'we-do-secret-51'
+  expiresIn: 3600
